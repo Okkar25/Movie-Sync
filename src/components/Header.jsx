@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import Dark from "../assets/darkMode/Dark";
 import Light from "../assets/darkMode/Light";
 import Logo from "../assets/logo1-removebg.png";
@@ -11,8 +11,20 @@ const Header = () => {
     JSON.parse(localStorage.getItem("darkMode")) || false
   );
 
+  const navigate = useNavigate();
+
+  const [search, setSearch] = useState("");
+
+  const searchMovies = (e) => {
+    if (e.key === "Enter") {
+      navigate("search", { state: { searchParams: search } });
+      setSearch("");
+      setHidden(true);
+    }
+  };
+
   useEffect(() => {
-    setHidden((prev) => !prev);
+    setHidden(true);
   }, [pathname]);
 
   useEffect(() => {
@@ -106,6 +118,9 @@ const Header = () => {
                 <span className="sr-only">Search icon</span>
               </div>
               <input
+                value={search}
+                onKeyDown={searchMovies}
+                onChange={(e) => setSearch(e.target.value)}
                 type="text"
                 id="search-navbar"
                 className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -169,6 +184,9 @@ const Header = () => {
                 </svg>
               </div>
               <input
+                value={search}
+                onKeyDown={searchMovies}
+                onChange={(e) => setSearch(e.target.value)}
                 type="text"
                 id="search-navbar"
                 className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -199,6 +217,12 @@ const Header = () => {
               <li>
                 <NavLink to="/movies/upcoming" className={linkClass}>
                   Upcoming
+                </NavLink>
+              </li>
+
+              <li>
+                <NavLink to="/tv/top_rated" className={linkClass}>
+                  TV Shows
                 </NavLink>
               </li>
             </ul>

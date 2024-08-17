@@ -8,6 +8,8 @@ const AllRoutes = () => {
     popular: "movie/popular",
     top_rated: "movie/top_rated",
     upcoming: "movie/upcoming",
+    tv: "tv/top_rated",
+    search: "search/movie",
   };
 
   return (
@@ -33,9 +35,14 @@ const AllRoutes = () => {
           element={<MovieList apiPath={urlRoutes.upcoming} />}
         />
 
+        <Route
+          path="/tv/top_rated"
+          element={<MovieList apiPath={urlRoutes.tv} />}
+        />
+
         <Route path="/movie/:id" element={<MovieDetail />} />
 
-        <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<Search apiPath={urlRoutes.search} />} />
 
         <Route path="*" element={<PageNotFound />} />
       </Routes>

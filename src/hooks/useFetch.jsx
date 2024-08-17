@@ -1,12 +1,15 @@
 import { useEffect, useState } from "react";
 import { apiUrl } from "../lib/constant";
 
-const useFetch = (apiPath) => {
+const useFetch = (apiPath, searchQuery = "") => {
   const [data, setData] = useState([]);
 
-  const url = `${apiUrl}${apiPath}?api_key=b98077a95222294b3c3ac8515718f26a`;
+  const apiKey = import.meta.env.VITE_API_KEY;
 
-  console.log(url);
+  const url =
+    searchQuery !== ""
+      ? `${apiUrl}${apiPath}?api_key=${apiKey}&query=${searchQuery}`
+      : `${apiUrl}${apiPath}?api_key=${apiKey}`;
 
   useEffect(() => {
     const fetchMovies = async () => {
@@ -16,7 +19,7 @@ const useFetch = (apiPath) => {
     };
 
     fetchMovies();
-  }, [apiPath]);
+  }, [apiPath, searchQuery]);
 
   return { data };
 };
