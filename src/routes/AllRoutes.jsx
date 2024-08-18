@@ -13,7 +13,7 @@ const AllRoutes = () => {
   };
 
   return (
-    <div className="dark:bg-gray-900">
+    <div className="dark:bg-gray-900 bg-gray-100">
       <Routes>
         <Route
           path="/"

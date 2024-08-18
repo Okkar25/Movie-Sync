@@ -1,19 +1,29 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { MovieCard } from "../components";
-import useSearch from "../hooks/useSearch";
+import useFetch from "../hooks/useFetch";
 
 const Search = ({ apiPath }) => {
   const location = useLocation();
-
-  const searchQuery = location.state.searchParams;
-  //
+  const searchQuery = location.state?.searchParams;
+  // const { data: movies } = useSearch(searchQuery);
   // const { data: movies } = useFetch(apiPath, searchQuery);
-  const { data: movies } = useSearch(searchQuery);
+
+  const [searchParams] = useSearchParams();
+  const queryTerm = searchParams.get("query");
+  const { data: movies } = useFetch(apiPath, queryTerm);
+
+  console.log(searchParams);
 
   return (
     <main>
-      <section className="max-w-7xl mx-auto py-7 text-center">
+      <section className="flex flex-col gap-5 sm:gap-10 max-w-7xl mx-auto py-3 sm:py-5">
+        {movies?.length !== 0 && (
+          <span className="dark:text-white text-xl text-center sm:text-start sm:text-[28px]">
+            Results for '{queryTerm}'
+          </span>
+        )}
+
         {/* movie card */}
         {movies?.length ? (
           <>
@@ -25,7 +35,7 @@ const Search = ({ apiPath }) => {
           </>
         ) : (
           <>
-            <span className="dark:text-white">
+            <span className="dark:text-white text-center">
               There are no movies that matched your query.
             </span>
           </>

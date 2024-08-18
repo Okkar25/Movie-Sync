@@ -5,7 +5,7 @@ import Logo from "../assets/logo2-removebg.png";
 const Footer = () => {
   return (
     <footer
-      className="bg-white shadow dark:bg-gray-800 mt-auto dark:border-t dark:border-gray-900"
+      className="bg-gray-300 shadow dark:bg-gray-800 mt-auto dark:border-t dark:border-gray-900"
       style={{ boxShadow: "0 0 3px 0 rgba(0,0,0,0.2)" }}
     >
       <div className="w-full max-w-screen-xl mx-auto p-5 md:py-8">
@@ -20,7 +20,7 @@ const Footer = () => {
             </span>
           </Link>
 
-          <ul className="flex flex-wrap items-center justify-center mb-6 text-sm sm:text-[15px] font-medium text-gray-500 sm:mb-0 dark:text-gray-400">
+          <ul className="flex flex-wrap items-center justify-center mb-6 text-sm sm:text-[15px] font-medium text-slate-800 sm:mb-0 dark:text-gray-400">
             <li>
               <Link to="/" className="hover:underline me-4 md:me-6">
                 Instagram
@@ -47,8 +47,8 @@ const Footer = () => {
           </ul>
         </div>
 
-        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
-        <span className="flex flex-col gap-1 sm:flex-row justify-center text-center text-sm sm:text-[15px] text-gray-600 dark:text-gray-400">
+        <hr className="my-6 border-orange-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <span className="flex flex-col gap-1 sm:flex-row justify-center text-center text-sm sm:text-[15px] text-gray-700 dark:text-gray-400">
           <p>
             © 2024
             <Link

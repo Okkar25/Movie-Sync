@@ -6,21 +6,25 @@ import Logo from "../assets/logo1-removebg.png";
 
 const Header = () => {
   const { pathname } = useLocation();
+  const navigate = useNavigate();
+
   const [hidden, setHidden] = useState(false);
   const [darkMode, setDarkMode] = useState(
     JSON.parse(localStorage.getItem("darkMode")) || false
   );
 
-  const navigate = useNavigate();
+  const [search, setSearch] = useState(""); // use with input onChange
 
-  const [search, setSearch] = useState("");
+  const handleSearch = (e) => {
+    e.preventDefault();
 
-  const searchMovies = (e) => {
-    if (e.key === "Enter") {
-      navigate("search", { state: { searchParams: search } });
-      setSearch("");
-      setHidden(true);
-    }
+    // navigate("search", { state: { searchParams: search } }); // use with useLocation
+    const queryTerm = e.target.search.value;
+
+    navigate(`search?query=${queryTerm}`);
+    // setSearch("");
+    e.target.reset();
+    setHidden(true);
   };
 
   useEffect(() => {
@@ -41,13 +45,13 @@ const Header = () => {
 
   const linkClass = ({ isActive }) =>
     isActive
-      ? "block py-2 px-3 text-[16px] bg-blue-600 text-white dark:bg-gray-900 sm:dark:bg-transparent font-semibold sm:text-blue-700 sm:bg-transparent rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-white dark:hover:bg-gray-900 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+      ? "block py-2 px-3 text-[16px] bg-blue-600 text-white dark:bg-gray-900 sm:dark:bg-transparent font-semibold sm:text-blue-600 sm:bg-transparent rounded md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-white dark:hover:bg-gray-900 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
       : "block py-2 px-3 text-[16px] font-semibold text-gray-900 rounded hover:bg-blue-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 md:dark:hover:text-white dark:text-gray-400 dark:hover:bg-gray-700 md:dark:hover:bg-transparent dark:border-gray-700";
 
   return (
     <header className="mb-20">
       <nav
-        className="bg-white border-gray-200 dark:bg-gray-800 fixed top-0 w-full dark:border-b dark:border-gray-900"
+        className="bg-gray-300 border-gray-200 dark:bg-gray-800 fixed top-0 w-full dark:border-b dark:border-gray-900 z-50"
         style={{ boxShadow: "0 0 3px 0 rgba(0,0,0,0.2)" }}
       >
         <div className="max-w-screen-xl  flex flex-wrap items-center justify-between mx-auto p-5">
@@ -65,7 +69,7 @@ const Header = () => {
           <div className="mobile-nav flex md:order-2">
             <button
               onClick={() => setDarkMode((prev) => !prev)}
-              className="bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm me-2 sm:me-3 px-3 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
+              className="bg-gray-100 border border-gray-100 focus:outline-none hover:bg-gray-200 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm me-2 sm:me-3 px-3 py-1 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700"
             >
               {darkMode ? <Light /> : <Dark />}
             </button>
@@ -77,7 +81,7 @@ const Header = () => {
               data-collapse-toggle="navbar-search"
               aria-controls="navbar-search"
               aria-expanded="false"
-              className="md:hidden text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-1"
+              className="md:hidden bg-gray-100 dark:bg-transparent text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 me-3"
             >
               <svg
                 className="w-5 h-5"
@@ -117,16 +121,16 @@ const Header = () => {
                 </svg>
                 <span className="sr-only">Search icon</span>
               </div>
-              <input
-                value={search}
-                onKeyDown={searchMovies}
-                onChange={(e) => setSearch(e.target.value)}
-                type="text"
-                id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search . . ."
-                autoComplete="off"
-              />
+              <form onSubmit={handleSearch}>
+                <input
+                  name="search"
+                  type="text"
+                  id="search-navbar"
+                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-100 rounded-lg bg-gray-100 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Search . . ."
+                  autoComplete="off"
+                />
+              </form>
             </div>
 
             {/* responsive hamburger menu */}
@@ -134,7 +138,7 @@ const Header = () => {
               onClick={() => setHidden((prev) => !prev)}
               data-collapse-toggle="navbar-search"
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center dark:bg-transparent bg-gray-100 p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               aria-controls="navbar-search"
               aria-expanded="false"
             >
@@ -183,19 +187,19 @@ const Header = () => {
                   />
                 </svg>
               </div>
-              <input
-                value={search}
-                onKeyDown={searchMovies}
-                onChange={(e) => setSearch(e.target.value)}
-                type="text"
-                id="search-navbar"
-                className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Search . . ."
-                autoComplete="off"
-              />
+              <form onSubmit={handleSearch}>
+                <input
+                  name="search"
+                  type="text"
+                  id="search-navbar"
+                  className="block w-full p-2 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-100 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Search . . ."
+                  autoComplete="off"
+                />
+              </form>
             </div>
 
-            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-50 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700">
+            <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border border-gray-100 rounded-lg bg-gray-100 md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0 md:bg-transparent dark:bg-gray-800 md:dark:bg-gray-800 dark:border-gray-700">
               <li>
                 <NavLink to="/" end className={linkClass}>
                   Home
