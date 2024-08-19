@@ -1,0 +1,1 @@
+bg-gradient-to-r from-indigo-500 via-pink-500 to-blue-500
