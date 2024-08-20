@@ -13,7 +13,12 @@ export default {
       Poppins: ["Poppins", "sans-serif"],
     },
 
-    extend: {},
+    extend: {
+      colors: {
+        bookmarkLight: "#1e2a78",
+        bookmarkDark: "#f4fa9c",
+      },
+    },
   },
 
   plugins: [require("flowbite/plugin")],

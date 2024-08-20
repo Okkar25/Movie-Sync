@@ -1,14 +1,16 @@
 import React from "react";
 
-const PlayTrailer = () => {
+const PlayTrailer = ({ theme }) => {
+  const strokeColor = theme ? "#f5f5f5" : "#1e293b";
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="none"
+      fill="white"
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="currentColor"
-      className="size-6"
+      stroke={strokeColor}
+      className="w-6"
     >
       <path
         strokeLinecap="round"

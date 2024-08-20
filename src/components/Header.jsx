@@ -9,9 +9,6 @@ const Header = ({ darkMode, setDarkMode }) => {
   const navigate = useNavigate();
 
   const [hidden, setHidden] = useState(false);
-  // const [darkMode, setDarkMode] = useState(
-  //   JSON.parse(localStorage.getItem("darkMode")) || false
-  // );
 
   const [search, setSearch] = useState(""); // use with input onChange
 
@@ -30,18 +27,6 @@ const Header = ({ darkMode, setDarkMode }) => {
   useEffect(() => {
     setHidden(true);
   }, [pathname]);
-
-  // useEffect(() => {
-  //   localStorage.setItem("darkMode", JSON.stringify(darkMode));
-
-  //   if (darkMode) {
-  //     document.documentElement.classList.add("dark");
-  //     // document.body.classList.add("bg-gray-900");
-  //   } else {
-  //     document.documentElement.classList.remove("dark");
-  //     // document.body.classList.remove("bg-gray-900");
-  //   }
-  // }, [darkMode]);
 
   const linkClass = ({ isActive }) =>
     isActive

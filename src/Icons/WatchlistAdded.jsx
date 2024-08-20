@@ -1,13 +1,16 @@
 import React from "react";
 
-const WatchlistAdded = () => {
+const WatchlistAdded = ({ theme }) => {
+  const strokeColor = theme ? "#f4fa9c" : "#3d6cb9";
+  const fillColor = theme ? "#f4fa9c" : "#3d6cb9";
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      fill="white"
+      fill={fillColor}
       viewBox="0 0 24 24"
       strokeWidth={1.5}
-      stroke="white"
+      stroke={strokeColor}
       className="w-6"
     >
       <path

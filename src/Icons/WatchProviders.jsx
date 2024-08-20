@@ -1,7 +1,7 @@
 import React from "react";
 
-const WatchlistNotAdded = ({ theme }) => {
-  const strokeColor = theme ? "#f4fa9c" : "#3d6cb9";
+const WatchProviders = ({ theme }) => {
+  const strokeColor = theme ? "white" : "black";
 
   return (
     <svg
@@ -15,10 +15,10 @@ const WatchlistNotAdded = ({ theme }) => {
       <path
         strokeLinecap="round"
         strokeLinejoin="round"
-        d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0Z"
+        d="M6 20.25h12m-7.5-3v3m3-3v3m-10.125-3h17.25c.621 0 1.125-.504 1.125-1.125V4.875c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125Z"
       />
     </svg>
   );
 };
 
-export default WatchlistNotAdded;
+export default WatchProviders;

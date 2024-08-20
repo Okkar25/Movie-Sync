@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
 import { Footer, Header } from "./components";
 import AllRoutes from "./routes/AllRoutes";
+
+export const ThemeContext = createContext();
 
 const App = () => {
   const [darkMode, setDarkMode] = useState(
@@ -21,11 +23,13 @@ const App = () => {
 
   return (
     <div className="App h-screen">
-      <Header darkMode={darkMode} setDarkMode={setDarkMode} />
+      <ThemeContext.Provider value={darkMode}>
+        <Header darkMode={darkMode} setDarkMode={setDarkMode} />
 
-      <AllRoutes />
+        <AllRoutes />
 
-      <Footer />
+        <Footer />
+      </ThemeContext.Provider>
     </div>
   );
 };
