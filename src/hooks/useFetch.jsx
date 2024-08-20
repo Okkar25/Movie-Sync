@@ -8,7 +8,7 @@ const useFetch = (apiPath, queryTerm = "") => {
 
   const url = `${apiUrl}${apiPath}?api_key=${apiKey}&query=${queryTerm}`;
 
-//   console.log(url);
+  // console.log(url);
 
   useEffect(() => {
     const fetchMovies = async () => {

@@ -11,6 +11,19 @@ export const formatReleaseDate = (releaseDate) => {
 };
 
 export const averageRating = (rating) => {
-  const formatRating = rating.toFixed(1);
-  return formatRating;
+  if (!rating || isNaN(rating)) return "N/A"; // Handle invalid ratings
+  return rating.toFixed(1);
+};
+
+export const formatDuration = (totalMinutes) => {
+  if (!totalMinutes || isNaN(totalMinutes)) return "N/A"; // Handle invalid durations
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${hours}h ${minutes}m`;
+};
+
+export const formatRating = (rating) => {
+  if (!rating || isNaN(rating)) return "N/A"; // Handle invalid ratings
+  const roundedRating = Math.round(rating * 10) / 10; // Round to one decimal place
+  return roundedRating % 1 === 0 ? Math.floor(roundedRating) : roundedRating;
 };
