@@ -1,30 +1,34 @@
 import React, { useContext, useState } from "react";
 import { useParams } from "react-router-dom";
 import { ThemeContext } from "../App";
+import MissingCast from "../assets/Missing_Cast/ActorNotFound2.jpg";
 import useFetchMovie from "../hooks/useFetchMovie";
 
+// Import Swiper
+import "swiper/css";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+
+import SideInfo from "../components/MovieDetail/SideInfo";
 import useFetch from "../hooks/useFetch";
-import {
-  Keyword,
-  PlayTrailer,
-  Star,
-  WatchlistAdded,
-  WatchlistNotAdded,
-  WatchProviders,
-} from "../Icons";
-import { formatAmount, formatDuration, formatRating } from "../lib/functions";
+import { Cast, Keyword, WatchProviders } from "../Icons";
+import { formatAmount } from "../lib/functions";
 
 const MovieDetail = () => {
   const { id } = useParams();
   const [watchlist, setWatchlist] = useState(false);
 
   const theme = useContext(ThemeContext);
+  const swiper = useSwiper();
 
+  // data fetch
   const { data: movie } = useFetchMovie(`movie/${id}`);
   const { data: watchProviders } = useFetch(`movie/${id}/watch/providers`);
   const { data: keywordProviders } = useFetchMovie(`movie/${id}/keywords`);
-
-  console.log(keywordProviders.keywords);
+  const { data: credits } = useFetchMovie(`movie/${id}/credits`);
 
   const {
     backdrop_path,
@@ -61,6 +65,8 @@ const MovieDetail = () => {
   //   window.scrollTo(0, 0);
   // }, []);
 
+  // console.log(id);
+
   return (
     <main className="">
       <section className="">
@@ -69,98 +75,14 @@ const MovieDetail = () => {
           style={{ backgroundImage: `url(${backgroundImage})` }}
         ></div> */}
 
-        <div className="grid grid-cols-4 gap-10 mt-7">
-          <div className="col-span-1">
-            <img
-              src={posterImage}
-              alt="poster"
-              className="rounded-lg select-none"
-            />
-          </div>
-
-          <div className="col-span-3 select-none">
-            {/* title / year */}
-            <div className="flex items-center gap-2 ">
-              <p className="dark:text-white font-semibold w-fit line-clamp-2 text-4xl font-Poppins">
-                {original_title}
-              </p>
-              <span className="dark:text-gray-400 text-2xl font-Roboto">
-                ({release_date?.split("-")[0]})
-              </span>
-            </div>
-
-            {/* release date / language / duration / rating  */}
-            <div className="dark:text-gray-300 text-sm mt-3 font-Roboto flex items-center">
-              <span className="">
-                {release_date?.split("-").join("/")} ({origin_country}) &bull;{" "}
-                {original_language} &bull;{" "}
-              </span>
-              <span className="bg-blue-600 text-white mx-2 text-sm font-medium px-3 py-0.5 rounded dark:bg-blue-700 dark:text-white">
-                {formatDuration(runtime)}
-              </span>
-              &bull;{" "}
-              <span className="bg-yellow-300 flex items-center gap-1 w-[60px] text-black text-sm font-medium mx-2 px-2 py-0.5 rounded dark:bg-yellow-300 dark:text-gray-900">
-                <Star />
-                <span className="font-semibold">
-                  {formatRating(vote_average)}
-                </span>
-              </span>
-            </div>
-
-            {/* genres */}
-            <div className="mt-7">
-              {genres?.map((genre) => (
-                <span
-                  key={genre.id}
-                  className="text-blue-600 border-blue-600 font-medium bg-transparent text-sm me-2 px-3 py-1.5 rounded dark:bg-transparent dark:text-blue-400 border dark:border-blue-400"
-                >
-                  {genre.name}
-                </span>
-              ))}
-            </div>
-
-            {/* watchlist / play video */}
-            <div className="mt-7 flex items-center gap-5">
-              <button className="flex items-center gap-2 border-2 hover:text-white hover:bg-slate-600 hover:border-slate-600 border-slate-700 dark:hover:bg-slate-700 px-4 py-3 rounded-lg">
-                <PlayTrailer theme={theme} className="" />
-                <span className="dark:text-slate-300 text-[17px] ">
-                  Play Trailer
-                </span>
-              </button>
-
-              <div
-                className="watchlist cursor-pointer flex items-center gap-2"
-                onClick={() => setWatchlist((prev) => !prev)}
-              >
-                <>
-                  {watchlist ? (
-                    <WatchlistAdded theme={theme} />
-                  ) : (
-                    <WatchlistNotAdded theme={theme} />
-                  )}
-                </>
-
-                <span className="font-Roboto w-[150px] dark:text-white">
-                  {watchlist ? "Added to Watchlist" : "Add to Watchlist"}
-                </span>
-              </div>
-            </div>
-
-            {/* tagline / overview */}
-            <div className="flex flex-col gap-2 mt-5">
-              <p className="dark:text-gray-400 text-gray-500 text-[17px] italic">
-                {tagline}
-              </p>
-
-              <div className="flex flex-col gap-1">
-                <h3 className="dark:text-white text-[20px] font-medium">
-                  Overview
-                </h3>
-                <p className="dark:text-white text-[17px]">{overview}</p>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* side info */}
+        <SideInfo
+          id={id}
+          theme={theme}
+          watchlist={watchlist}
+          setWatchlist={setWatchlist}
+          credits={credits}
+        />
 
         {/* status / budget / revenue / director / original language */}
         <div className="grid grid-cols-4 gap-3 text-center dark:text-white py-7 my-10 rounded-lg bg-gray-300 dark:bg-slate-800 ">
@@ -188,11 +110,66 @@ const MovieDetail = () => {
           </div>
         </div>
 
+        {/* cast */}
+        <div className="flex flex-col gap-8 py-3 select-none">
+          <div className="flex items-center justify-center gap-3">
+            <Cast theme={theme} />
+            <h4 className="dark:text-white text-xl font-Roboto font-semibold underline underline-offset-8">
+              Top Billed Casts
+            </h4>
+          </div>
+
+          <div className="flex items-center gap-9 overflow-x-auto castScrollBar pb-5 relative">
+            <Swiper
+              className="flex flex-col gap-5"
+              modules={[Navigation]}
+              slidesPerView={6}
+              spaceBetween={30}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={false}
+            >
+              {credits.cast?.slice(0, 21).map((actor) => (
+                <SwiperSlide key={actor.id}>
+                  <div className="flex flex-col items-center gap-3">
+                    <img
+                      src={
+                        actor.profile_path
+                          ? `https://image.tmdb.org/t/p/w500/${actor.profile_path}`
+                          : MissingCast
+                      }
+                      alt="actor"
+                      className="min-w-[170px] rounded"
+                    />
+
+                    <div className="flex flex-col items-center">
+                      <span className="dark:text-white">
+                        {actor.original_name}
+                      </span>
+                      <span className="dark:text-gray-300 line-clamp-1">
+                        {actor.character}
+                      </span>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+
+              {/* swiper buttons */}
+              {/* <div className="">
+                <SwiperController />
+              </div> */}
+            </Swiper>
+          </div>
+        </div>
+
         {/* keywords */}
-        <div className="flex flex-col gap-8 py-7">
+        <div className="flex flex-col gap-10 py-4">
           <div className="flex items-center justify-center gap-3">
             <Keyword theme={theme} />
-            <h4 className="dark:text-white text-xl font-Roboto">Keywords</h4>
+            <h4 className="dark:text-white text-xl font-Roboto font-semibold underline underline-offset-8">
+              Keywords
+            </h4>
           </div>
 
           <div className=" flex flex-wrap justify-center items-center gap-3">
@@ -209,10 +186,12 @@ const MovieDetail = () => {
 
         {/* watch providers */}
         {watchProviders?.US?.buy?.length > 0 && (
-          <div className="watchProviders flex flex-col gap-8 py-7">
+          <div className="watchProviders flex flex-col gap-10 py-7">
             <div className="flex items-center justify-center gap-3">
               <WatchProviders theme={theme} />
-              <h4 className="dark:text-white text-xl font-Roboto">Watch Providers</h4>
+              <h4 className="dark:text-white text-xl font-Roboto font-semibold underline underline-offset-8">
+                Watch Providers
+              </h4>
             </div>
 
             <div className="flex items-center justify-between w-full">

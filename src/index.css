@@ -25,3 +25,20 @@ main {
 .btn {
   @apply text-white bg-blue-600 font-Poppins hover:bg-blue-700 focus:ring-4 focus:ring-blue-400 font-medium rounded-lg px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800;
 }
+
+/* overflow x scrollbar */
+
+.castScrollBar::-webkit-scrollbar {
+  width: 10px; /* Adjust the width of the scrollbar */
+  height: 10px; /* Adjust the height of the scrollbar */
+}
+
+.castScrollBar::-webkit-scrollbar-thumb {
+  background-color: rgba(184, 166, 166, 0.2); /* Thumb color with opacity */
+  border-radius: 10px; /* Rounded corners */
+  cursor: pointer;
+}
+
+.castScrollBar::-webkit-scrollbar-track {
+  background: transparent; /* Track color */
+}
