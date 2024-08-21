@@ -39,7 +39,7 @@ const SideInfo = ({ id, theme, watchlist, setWatchlist, credits }) => {
 
   const movieDirector = credits.crew?.find(
     (director) => director?.known_for_department === "Directing"
-  ).original_name;
+  )?.original_name;
 
   return (
     <div className="grid grid-cols-4 gap-10 mt-7">
