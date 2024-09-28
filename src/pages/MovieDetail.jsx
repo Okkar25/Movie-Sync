@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { ThemeContext } from "../App";
 import useFetchMovie from "../hooks/useFetchMovie";
 
@@ -18,19 +18,29 @@ import {
   WatchProviders,
 } from "../components/MovieDetail";
 import Recommendations from "../components/MovieDetail/Recommendations";
+import { BackIcon } from "../Icons";
 
 const MovieDetail = () => {
   const { id } = useParams();
-  const [watchlist, setWatchlist] = useState(false);
 
   const theme = useContext(ThemeContext);
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   // data fetch
   const { data: credits } = useFetchMovie(`movie/${id}/credits`);
 
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [id]);
+  }, [id, pathname]);
+
+  const handleBackNavigation = () => {
+    navigate(-1);
+
+    setTimeout(() => {
+      window.scrollTo(0, 0);
+    }, 100);
+  };
 
   // console.log(id);
 
@@ -42,14 +52,15 @@ const MovieDetail = () => {
           style={{ backgroundImage: `url(${backgroundImage})` }}
         ></div> */}
 
+        <div
+          className="dark:text-white left-10 fixed cursor-pointer dark:bg-slate-800 bg-gray-300 p-3 rounded-full"
+          onClick={handleBackNavigation}
+        >
+          <BackIcon theme={theme} />
+        </div>
+
         {/* side info */}
-        <SideInfo
-          id={id}
-          theme={theme}
-          watchlist={watchlist}
-          setWatchlist={setWatchlist}
-          credits={credits}
-        />
+        <SideInfo id={id} theme={theme} credits={credits} />
 
         {/* status / budget / revenue / director / original language */}
         <BudgetRevenue id={id} />

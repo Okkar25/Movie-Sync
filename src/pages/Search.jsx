@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useLocation, useSearchParams } from "react-router-dom";
 import { MovieCard } from "../components";
 import useFetch from "../hooks/useFetch";
@@ -12,6 +12,10 @@ const Search = ({ apiPath }) => {
   const [searchParams] = useSearchParams();
   const queryTerm = searchParams.get("query");
   const { data: movies } = useFetch(apiPath, queryTerm);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [queryTerm]);
 
   console.log(searchParams);
 

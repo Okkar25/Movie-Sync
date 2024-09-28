@@ -36,7 +36,7 @@ main {
 .castScrollBar::-webkit-scrollbar-thumb {
   background-color: rgba(184, 166, 166, 0.2); /* Thumb color with opacity */
   border-radius: 10px; /* Rounded corners */
-  cursor: pointer;
+  cursor: grab;
 }
 
 .castScrollBar::-webkit-scrollbar-track {

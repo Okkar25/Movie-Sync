@@ -1,15 +1,12 @@
 import React from "react";
-import {
-  PlayTrailer,
-  Star,
-  WatchlistAdded,
-  WatchlistNotAdded,
-} from "../../Icons";
+import { PlayTrailer, Star } from "../../Icons";
 import useFetchMovie from "../../hooks/useFetchMovie";
 import { formatDuration, formatRating } from "../../lib/functions";
+import AddToWatchlist from "../AddToWatchlist";
 
-const SideInfo = ({ id, theme, watchlist, setWatchlist, credits }) => {
+const SideInfo = ({ id, theme, credits }) => {
   const { data: movie } = useFetchMovie(`movie/${id}`);
+
   const {
     backdrop_path,
     poster_path,
@@ -99,22 +96,9 @@ const SideInfo = ({ id, theme, watchlist, setWatchlist, credits }) => {
             </span>
           </button>
 
-          <div
-            className="watchlist cursor-pointer flex items-center gap-2"
-            onClick={() => setWatchlist((prev) => !prev)}
-          >
-            <>
-              {watchlist ? (
-                <WatchlistAdded theme={theme} />
-              ) : (
-                <WatchlistNotAdded theme={theme} />
-              )}
-            </>
+          {/* watchlist */}
 
-            <span className="font-Roboto w-[150px] dark:text-white">
-              {watchlist ? "Added to Watchlist" : "Add to Watchlist"}
-            </span>
-          </div>
+          <AddToWatchlist id={id} theme={theme} />
         </div>
 
         {/* tagline / overview */}

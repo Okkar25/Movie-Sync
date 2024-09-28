@@ -1,3 +1,4 @@
+export { default as BackIcon } from "./BackIcon.jsx";
 export { default as Cast } from "./Cast.jsx";
 export { default as ChevronLeft } from "./ChevronLeft.jsx";
 export { default as ChevronRight } from "./ChevronRight.jsx";

@@ -5,7 +5,7 @@ import useFetch from "../../hooks/useFetch";
 import { RecommendationsIcon } from "../../Icons";
 
 const Recommendations = ({ id, theme }) => {
-  const { data: similarMovies } = useFetch(`movie/${id}/similar`);
+  const { data: similarMovies } = useFetch(`movie/${id}/recommendations`);
   const navigate = useNavigate();
 
   //   console.log(similarMovies); // backdrop_path / poster_path / release_date / original_title
